@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Türk Müziği Ney Akort ve Koma Hesaplayıcı. Farklı ney türlerine göre Batı müziği frekans karşılıklarını ve koma değerlerini hesaplayın.">
+    <title>Ney & Koma Hesaplayıcı</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Ney & Koma Hesaplayıcı</h1>
+            <p>Türk Müziği ses sistemini ve Ney ahengini (akort) keşfedin.</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="tab-notes">Notalar ve Akort</button>
+            <button class="tab-button" data-tab="tab-holes">Boy ve Delik Hesabı</button>
+            <button class="tab-button" data-tab="tab-acoustics">Başpâre Akustiği</button>
+            <button class="tab-button" data-tab="tab-history">Tarihçe ve Kavramlar</button>
+        </div>
+
+        <div id="tab-notes" class="tab-content active">
+        <section class="glass-panel controls-section">
+            <label for="ney-select">Ney Ahengi (Türü) Seçin</label>
+            <div class="custom-select">
+                <select id="ney-select">
+                    <!-- JS will populate this -->
+                </select>
+            </div>
+            <p id="ney-description" style="color: var(--text-muted); text-align: center; margin-top: 0.5rem; font-size: 0.95rem;"></p>
+        </section>
+
+        <section class="glass-panel table-container">
+            <table id="notes-table">
+                <thead>
+                    <tr>
+                        <th>Türk Müziği Perdesi</th>
+                        <th>Ney Tutuşu</th>
+                        <th>Batı Karşılığı (Absolut)</th>
+                        <th>Koma / Arıza Değeri</th>
+                        <th>Frekans (Yaklaşık)</th>
+                    </tr>
+                </thead>
+                <tbody id="notes-body">
+                    <!-- JS will populate this -->
+                </tbody>
+            </table>
+        </section>
+        </div>
+
+        <div id="tab-holes" class="tab-content">
+        <section class="glass-panel info-section">
+            <h2 style="color: var(--accent-gold); margin-bottom: 0.5rem; font-size: 1.8rem; text-align: center;">Ney Yapım Ölçüleri (26'lı Sistem)</h2>
+            <p style="color: var(--text-muted); text-align: center; margin-bottom: 1.5rem; font-size: 0.95rem;">Aşağıda seçilen neyin ortalama boyu verilmiştir. Elinizdeki kamışın tam boyunu girerek deliklerin açılması gereken milimetrik mesafeleri hesaplayabilirsiniz.</p>
+            
+            <div class="controls-section" style="flex-direction: row; justify-content: center; margin-bottom: 1.5rem; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <label for="ney-length">Kamış Boyu (mm):</label>
+                    <input type="number" id="ney-length" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-glass); color: white; padding: 0.5rem 1rem; border-radius: 8px; width: 100px; font-family: inherit; font-size: 1.1rem; text-align: center; outline: none; transition: 0.3s;">
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <label for="ney-diameter">İç Çap (mm):</label>
+                    <input type="number" id="ney-diameter" value="22" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-glass); color: white; padding: 0.5rem 1rem; border-radius: 8px; width: 100px; font-family: inherit; font-size: 1.1rem; text-align: center; outline: none; transition: 0.3s;">
+                </div>
+            </div>
+
+            <div id="maker-summary" style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 1.5rem; color: var(--accent-gold); font-weight: 500; font-size: 1.1rem; flex-wrap: wrap;">
+                <!-- JS will populate this -->
+            </div>
+            
+            <div class="table-container">
+                <table id="maker-table">
+                    <thead>
+                        <tr>
+                            <th>Delik (Aşağıdan Yukarıya)</th>
+                            <th>26'lı Sistem Oranı</th>
+                            <th>Klasik Mesafe (mm)</th>
+                            <th>Akustik Düzeltmeli (mm)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="maker-body">
+                        <!-- JS will populate this -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        </div>
+
+        <div id="tab-history" class="tab-content">
+        <section class="glass-panel info-section">
+            <h2>Kavramlar ve Tarihçe Sözlüğü</h2>
+            <div class="grid">
+                <div class="info-card">
+                    <h3>Koma Sistemi (AEU)</h3>
+                    <p>Arel-Ezgi-Uzdilek (AEU) ses sistemine göre bir tam ses 9 eşit parçaya (komaya) bölünür (Holder Koması). Batı müziğindeki 12 eşit tamperaman sisteminin (yarım seslerin eşit olduğu sistemin) aksine, Türk müziği mikrotonal aralıklara sahiptir ve makamların ruhu bu komalarla verilir.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Ney ve Göçürme (Şed / Transpozisyon)</h3>
+                    <p>Türk müziğinde notalar çoğunlukla yerinden (Mansur ahengi, Dügâh=La) yazılarak icra edilir. Şed (göçürme) işlemi, farklı karar seslerine sahip neyler (Kız, Bolâhenk vb.) kullanılarak aynı parmak pozisyonuyla farklı frekanslarda (tonlarda) çalınmasıdır.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Arızalar (Değiştiriciler)</h3>
+                    <p><strong>Koma:</strong> 1 komalık aralık (~22.6 cent).<br><strong>Bakiye:</strong> 4 komalık aralık.<br><strong>Küçük Mücennep:</strong> 5 komalık aralık.<br><strong>Büyük Mücennep:</strong> 8 komalık aralık.<br><strong>Tanini:</strong> 9 komalık (tam ses) aralık.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Başpâre ve Parazvâne</h3>
+                    <p><strong>Başpâre:</strong> Neyin üflenen üst kısmına takılan, manda boynuzu veya şimşirden yapılan, sesin gür ve pürüzsüz çıkmasını sağlayan parçadır.<br><strong>Parazvâne:</strong> Kamışın çatlamasını önlemek için alt ve üst uçlara takılan metal yüksüklerdir.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Dem Sesler ve Aşiran</h3>
+                    <p><strong>Dem Sesler:</strong> Neyden elde edilen en pes (kalın) seslerdir. Çok hafif bir üfleme şiddetiyle (1. devre) elde edilir.<br><strong>Aşiran Perdesi:</strong> Neyin arka tarafında bulunan ve genellikle başparmak ile kapatılan (13/26 noktasındaki) deliktir.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Mansur ve Kız Ney</h3>
+                    <p><strong>Mansur Ney:</strong> Dügâh(La) = A4. Klasik koro ve yerinden icra standardıdır.<br><strong>Kız Ney:</strong> Dügâh(Si) = B4. İnsan sesine ve nefesine en uygun aralıkta olduğu için eğitimde standart olarak kullanılır.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Kamış Çapının Etkisi (Akustik)</h3>
+                    <p>Kamışın iç çapı (bore diameter) neyin hacmini ve entonasyonunu doğrudan etkiler. İç çap genişledikçe açık ucun "uç düzeltmesi" (end correction) artar (yaklaşık Δ ≈ 0.61 × r). Bu durum, aynı karar sesini elde etmek için daha geniş kamışların teorik olarak biraz daha kısa kesilmesini veya delik merkezlerinin milimetrik olarak yukarı (ağızlığa doğru) kaydırılmasını gerektirir.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Cent, Koma ve Frekans İlişkisi</h3>
+                    <p><strong>Cent:</strong> Batı müziğinde 1 yarım sesin 100 parçaya bölünmesiyle oluşan logaritmik aralıktır (1 Oktav = 1200 cent).<br>
+                    <strong>Koma (Holder):</strong> Türk müziğinde 1 tam ses 9 parçaya, 1 oktav ise 53 parçaya bölünür. 1 koma ≈ 22.64 cent'tir.<br>
+                    <strong>Hz (Frekans) Karşılığı:</strong> Cent ve koma logaritmiktir, bu yüzden sabit bir Hz değeri yoktur. Frekans yükseldikçe Hz aralığı genişler. Örneğin 440 Hz (La) frekansında 1 koma <strong>~5.8 Hz</strong>, 1 cent <strong>~0.25 Hz</strong> fark ederken, oktavı olan 880 Hz'de bu farklar iki katına çıkar.</p>
+                </div>
+            </div>
+        </section>
+        </div>
+
+        <div id="tab-acoustics" class="tab-content">
+            <section class="glass-panel info-section">
+                <h2 style="color: var(--accent-gold); margin-bottom: 0.5rem; font-size: 1.8rem; text-align: center;">Ney Başpâre & Akustik Hesaplayıcı</h2>
+                <p style="color: var(--text-muted); text-align: center; margin-bottom: 1.5rem; font-size: 0.95rem;">Başpâre hazne derinliğinin (boğum mesafesinin) üst oktavların akorduna etkisini hesaplayın.</p>
+                
+                <div class="controls-section" style="flex-direction: row; justify-content: center; margin-bottom: 1.5rem; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label for="acoustics-diameter">Kamış İç Çapı (mm):</label>
+                        <input type="number" id="acoustics-diameter" value="16.0" step="0.1" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-glass); color: white; padding: 0.5rem 1rem; border-radius: 8px; width: 100px; font-family: inherit; font-size: 1.1rem; text-align: center; outline: none; transition: 0.3s;">
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label for="acoustics-depth">Hazne Derinliği (mm):</label>
+                        <input type="number" id="acoustics-depth" value="2.0" step="0.1" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-glass); color: white; padding: 0.5rem 1rem; border-radius: 8px; width: 100px; font-family: inherit; font-size: 1.1rem; text-align: center; outline: none; transition: 0.3s;">
+                    </div>
+                </div>
+
+                <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: 2rem;">
+                    <div class="info-card" style="text-align: center;">
+                        <h3 style="color: var(--accent-gold); margin-bottom: 0.5rem;">Açık Uç Düzeltmesi</h3>
+                        <div id="acoustic-end-correction" style="font-size: 2rem; font-weight: 700; margin: 1rem 0;">0.0 mm</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Fiziksel borunun dışına taşan teorik ses dalgası uzunluğu (Δ ≈ 0.61 × r).</p>
+                    </div>
+                    <div class="info-card" style="text-align: center;">
+                        <h3 style="color: var(--accent-gold); margin-bottom: 0.5rem;">2. Oktav Kayması</h3>
+                        <div id="acoustic-shift-oct2" style="font-size: 2rem; font-weight: 700; margin: 1rem 0;">0 Cent</div>
+                        <p id="acoustic-desc-oct2" style="color: var(--text-muted); font-size: 0.9rem;">2. Devre seslerinin (Neva, vb.) akort sapması.</p>
+                    </div>
+                    <div class="info-card" style="text-align: center;">
+                        <h3 style="color: var(--accent-gold); margin-bottom: 0.5rem;">3. Oktav Kayması</h3>
+                        <div id="acoustic-shift-oct3" style="font-size: 2rem; font-weight: 700; margin: 1rem 0;">0 Cent</div>
+                        <p id="acoustic-desc-oct3" style="color: var(--text-muted); font-size: 0.9rem;">3. Devre seslerinin (Tiz Neva, vb.) akort sapması.</p>
+                    </div>
+                </div>
+
+                <div id="diagram-container" style="margin-top: 2.5rem; background: rgba(0,0,0,0.15); border: 1px solid var(--border-glass); border-radius: 12px; padding: 2rem 1rem; text-align: center;">
+                    <h3 style="color: var(--text-main); margin-bottom: 1.5rem; font-size: 1.3rem;">Ney Üst Boğum Kesiti</h3>
+                    
+                    <svg id="svg-endblown" width="100%" height="220" viewBox="0 0 300 220" style="display: block; margin: 0 auto; max-width: 300px; font-family: inherit;">
+                        <defs>
+                            <marker id="arrow-start2" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto-start-reverse">
+                                <path d="M 0 3 L 6 6 L 6 0 Z" fill="var(--text-main)"/>
+                            </marker>
+                            <marker id="arrow-end2" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+                                <path d="M 0 0 L 6 3 L 0 6 Z" fill="var(--text-main)"/>
+                            </marker>
+                        </defs>
+                        
+                        <!-- Tube walls -->
+                        <line x1="100" y1="40" x2="100" y2="200" stroke="var(--text-muted)" stroke-width="3"/>
+                        <line x1="200" y1="40" x2="200" y2="200" stroke="var(--text-muted)" stroke-width="3"/>
+                        
+                        <!-- Top opening -->
+                        <ellipse cx="150" cy="40" rx="50" ry="10" fill="var(--bg-dark)" stroke="var(--accent-gold)" stroke-width="2"/>
+                        <text x="150" y="20" fill="var(--accent-gold)" font-size="13" text-anchor="middle">Başpâre Girişi / Açık Uç</text>
+                        
+                        <!-- Node/Plug -->
+                        <ellipse cx="150" cy="80" rx="50" ry="10" fill="var(--accent-gold)" opacity="0.3" stroke="var(--accent-gold)" stroke-width="1"/>
+                        <line x1="100" y1="80" x2="200" y2="80" stroke="var(--accent-gold)" stroke-width="2" stroke-dasharray="4"/>
+                        <text x="150" y="105" fill="var(--accent-gold)" font-size="12" text-anchor="middle">1. Boğum (Düğüm)</text>
+                        
+                        <!-- Dimensions -->
+                        <line x1="230" y1="40" x2="230" y2="80" stroke="var(--text-main)" stroke-width="1.5" marker-start="url(#arrow-start2)" marker-end="url(#arrow-end2)"/>
+                        <text x="260" y="65" fill="var(--text-main)" font-size="12" text-anchor="middle">Hazne</text>
+                        <line x1="200" y1="40" x2="240" y2="40" stroke="var(--text-muted)" stroke-dasharray="4"/>
+                        <line x1="200" y1="80" x2="240" y2="80" stroke="var(--text-muted)" stroke-dasharray="4"/>
+                        
+                        <!-- Diameter -->
+                        <line x1="100" y1="140" x2="200" y2="140" stroke="var(--text-main)" stroke-width="1.5" marker-start="url(#arrow-start2)" marker-end="url(#arrow-end2)"/>
+                        <text x="150" y="135" fill="var(--text-main)" font-size="13" text-anchor="middle">İç Çap (D)</text>
+                    </svg>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
