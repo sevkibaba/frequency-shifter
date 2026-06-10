@@ -32,55 +32,34 @@ Başpâre kamışın ağzına takıldığında kamışın içine doğru bir mikt
 - Başpârenin toplam boyu ile "dışarıda kalan" boyu farklıdır. İçeri giren kısım (Kesişim) 1. boğumun iç hacmini işgal eder ve kaviteyi daraltır/kısaltır.
 - Kamışın ağız çapı, ana borunun üst iç çapı ($D_{\ddot{u}st}$) ile aynıdır.
 
-> [!NOTE]
-> **Kontrol Edilecek (Ampirik Doğrulama):** Alanların karesiyle orantılı sanal uzama hesabı (Empedans Dönüşümü) şimdilik teorik akustik fizik kurallarına göre varsayılmıştır. Atölye denemeleriyle bu etkinin pratik yansıması doğrulanacak ve gerekirse katsayılarla güncellenecektir.
+## 4. Sapma (Pertürbasyon) Modeli ve Algoritma
 
-## 4. Tüm Değişkenleri Birleştiren Algoritma
+Geleneksel 26'lık sistem zaten standart bir neyin (başpâre ve boğum daralmaları dahil) tüm akustik yapısını kendi içinde barındırır. Bu yüzden algoritmamız sıfırdan bir açık boru hesabı yapmak yerine, **Standart Ney'den ne kadar sapıldığını (Pertürbasyon)** hesaplar.
 
-Hesaplamada şu parametreler toplanır:
-1. `L_fiziksel` (Neyin tam boyu - mm)
-2. `D_ust` (Ana boru üst boğum iç çapı / Kamış Ağız Çapı - mm)
-3. `D_alt` (En alt boğum iç çap - mm)
-4. `L_1_bogum` (1. Boğum Uzunluğu - mm)
-5. `D_1_perde` (1. Boğum Perde Deliği - Örn: 8 mm)
-6. `t_1_perde` (1. Boğum Perde Kalınlığı - Örn: 3 mm)
-7. `L_baspare_toplam` (Başpâre Toplam Boyu - mm)
-8. `L_baspare_dis` (Başpâre Dışarıda Kalan Boyu - mm)
-9. `D_baspare_agiz` (Başpâre Üfleme Ağzı Çapı - mm)
-10. `t_et` (Kamış et kalınlığı ortalaması - mm)
-11. `D_delik` (Açılacak perdelerin ortalama matkap çapı - mm)
+**Standart (Referans) Değerler:**
+- Üst İç Çap = 15 mm, Alt İç Çap = 10 mm
+- 1. Boğum Boyu = 26 mm, Perde Deliği = 8 mm
+- Başpâre Toplam = 20 mm, Dışarıda Kalan = 10 mm
+- Başpâre Ağzı = 10 mm, Et Kalınlığı = 3 mm, Matkap Çapı = 9 mm
 
 **Hesaplama Adımları:**
-1. **Kesişim ve Hacim Daralması:**
-   - Kesişim Boyu: $L_{kesisim} = L_{baspare\_toplam} - L_{baspare\_dis}$
-   - Efektif Kavite Boyu (1. Boğum): $L_{kavite} = L_{1\_bogum} - L_{kesisim}$
-2. **Empedans Dönüşümleri (Alanların Karesiyle Orantılı Sanal Uzama):**
-   - **Perde Deliği Sanal Uzaması:** 
-     $$L_{eq\_perde} = (t_{1\_perde} + 1.2 \times r_{1\_perde}) \times \left(\frac{D_{\ddot{u}st}}{D_{1\_perde}}\right)^2$$
-   - **1. Boğum Kavitesi Uzaması:** Alan farkı az olduğu için yaklaşık fiziksel boyuna eşittir:
-     $$L_{eq\_hazne} = L_{kavite}$$
-   - **Başpâre Sanal Uzaması:** Akustik boyun (Neck) kendi fiziksel uzunluğudur.
-     $$L_{eq\_baspare} = L_{baspare\_toplam} \times \left(\frac{D_{\ddot{u}st}}{D_{baspare\_agiz}}\right)^2$$
-3. **Uç Düzeltmeleri:**
-   - $\Delta L_{alt} = 0.61 \times \left(\frac{D_{alt}}{2}\right)$
-   - $\Delta L_{\ddot{u}st} = L_{eq\_perde} + L_{eq\_hazne} + L_{eq\_baspare} + 0.61 \times \left(\frac{D_{baspare\_agiz}}{2}\right)$
-4. **Boru Akustik Boyu:** 
-   $$L_{eff} = L_{fiziksel} + \Delta L_{alt} + \Delta L_{\ddot{u}st}$$
-5. **Teorik Nodal Nokta:** İstenen nota için 26'lı oranlara göre teorik nokta:
-   $$X_{teorik} = L_{eff} \times \frac{R_i}{26}$$
-6. **Lokal Etkilerle Geri Dönüşüm (Fiziksel Konum):**
-   - Üst uç düzeltmesini teorik mesafeden çıkar:
-     $$X_1 = X_{teorik} - \Delta L_{\ddot{u}st}$$
-   - İlgili noktadaki konik çapı bul: $D_x = D_{\ddot{u}st} + \frac{x}{L_{fiziksel}} \times (D_{alt} - D_{\ddot{u}st})$
-   - Deliğin sanal uzantısını çıkar:
-     $$X_{fiziksel} = X_1 - \left[ \left(\frac{D_x}{D_{delik}}\right)^2 \times \left( t_{et} + 0.75 \cdot D_{delik} \right) \right]$$
+1. **Klasik (Referans) Konum:** Cetvelin sıfır noktası fiziksel kamışın en altıdır.
+   $$X_{klasik} = L_{kamis} \times \frac{R_i}{26}$$
+2. **Üst Akustik Sapma ($\Delta L_{\ddot{u}st\_diff}$):** 
+   Kullanıcının girdiği başpâre ve boğum ölçülerinin yarattığı teorik sanal uzama ($\Delta L_{\ddot{u}st\_g\ddot{u}ncel}$) hesaplanır. Referans değerlerin ürettiği uzama ($\Delta L_{\ddot{u}st\_std}$) bundan çıkarılır.
+   - Pozitif fark: Üst taraf standarda göre daha dar/uzun (Sesi pesleştiriyor).
+3. **Delik Akustik Sapması ($\Delta L_{delik\_diff}$):**
+   Kullanıcının girdiği matkap çapı ve et kalınlığının yarattığı sanal uzama, standart 9 mm matkap ve 3 mm et kalınlığının uzamasından çıkarılır.
+4. **Empedans (Etki) Dağılımı:**
+   Üst kısımdaki değişimin ($\Delta L_{\ddot{u}st\_diff}$), alt deliklere etkisi daha azdır. Delik başpâreye yaklaştıkça bu daralmanın frekansa/konuma olan etkisi artar. Arka delik (13.5) için bu etki çarpanı `1x`, en alt delik olan Dügâh (6) için `~0.44x` olarak ölçeklenir.
+   $$Efektif\ \ddot{U}st\ Sapma = \Delta L_{\ddot{u}st\_diff} \times \frac{R_i}{13.5}$$
+5. **Son Fiziksel Konum:**
+   Tüm sapmalar klasik konuma eklenir. (Pozitif bir sapma deliğin rezonansını pesleştireceği için, deliği fiziksel olarak **yukarı -alttan uzağa-** kaydırarak tizleştirir ve sistemi akort eder).
+   $$X_{fiziksel} = X_{klasik} + Efektif\ \ddot{U}st\ Sapma + \Delta L_{delik\_diff}$$
 
-## 5. Kamış Et Kalınlığının ($t_{et}$) Etkisi (Parmak Delikleri)
+## 5. Kamış Et Kalınlığının ve Çapların Etkisi
 
-Kamışın cidar/et kalınlığı ($t_{et}$), açılan **parmak deliklerinin akustik direncini (sanal uzamasını)** hesaplarken kullanılır. 
+- **Kalın Etli Kamış veya Dar Matkap:** Açılan delik tünel gibi derin olacağı için, boruyu tam manasıyla dışarıya açamaz ve boru akustik olarak pes kalmaya meyleder. Algoritma bunu bildiği için $\Delta L_{delik\_diff}$ pozitif çıkar ve matkap vurulacak fiziksel yeri **başpâreye doğru daha yukarı** kaydırır.
+- **Dar Başpâre veya Küçük Perde Deliği:** Neyin üst kısmı daraldığında boru akustik olarak daha ağırlaşır (uzar) ve pesleşir. Algoritma bunu kompanze etmek için deliklerin tamamını oransal olarak **yukarı** çeker. En üst delik en çok kayarken, en alt delik en az kayar.
 
-Neyin üzerine bir delik açtığınızda, o deliğin içindeki hava bir kütle oluşturur. Deliğin fiziksel derinliği, kamışın et kalınlığına eşittir. Et kalınlığı ne kadar fazlaysa, deliğin içindeki hava kütlesi (akustik ağırlık) o kadar fazla olur. Kalın etli bir kamışa açılan delik tünel gibi derin olacağı için, boruyu tam manasıyla dışarıya açamaz ve boru akustik olarak **pes kalmaya** meyleder.
-
-Algoritma bunu bildiği için $\Delta L_{delik}$ hesabını yapar; eğer et kalınlığı fazla girilmişse, bu pesleşmeyi dengelemek adına matkap vurulacak fiziksel yeri **başpâreye doğru daha yukarı** kaydırır. Et kalınlığı ($t_{et}$), açılan nota deliklerinin tam yerini milimetrik olarak yukarı çeken (tizleştiren) kritik bir dengeleme faktörüdür.
-
-Bu sayede sadece teorik nota mesafesi değil, "seçilen kamışın yapısına ve açılan deliklerin büyüklüğüne göre" en isabetli matkap vuruş noktaları milimetrik olarak elde edilir.
+Bu sapma modeli sayesinde sadece teorik matematik değil, yüzyıllık ustanın "deneme yanılma" tecrübesi milimetrik olarak ekrana yansıtılır.

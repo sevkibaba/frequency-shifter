@@ -126,89 +126,92 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 
-    function updateMakerTable(length, diaTop, diaBottom, node1Len, node1HoleDia, node1HoleThick, baspareTotal, baspareExposed, baspareDia, thickness, holeDia) {
-        makerTbody.innerHTML = "";
-        
-        // 1. Boru Akustik Boyu (L_eff)
-        const r_ust = diaTop / 2;
-        const r_alt = diaBottom / 2;
-        
-        // Alt açık uç düzeltmesi
-        const deltaL_alt = 0.61 * r_alt;
-        
-        // Üst açık uç (Çift Boğumlu Rezonatör)
-        // 1. Kesişim hesabı (Başpârenin içeri giren kısmı)
+    function calcTopExtension(diaTop, node1Len, node1HoleDia, node1HoleThick, baspareTotal, baspareExposed, baspareDia) {
         const baspareKes = Math.max(0, baspareTotal - baspareExposed);
-        
-        // 2. 1. Boğum Efektif Kavite Boyu
         const L_kavite = Math.max(0, node1Len - baspareKes);
         
-        // 3. Perde Deliği Sanal Uzaması (Equivalent Length)
-        // L_eq_perde = (t_perde + 1.2 * r_perde) * (D_ust / D_perde)^2
         const r_perde = node1HoleDia / 2;
         let L_eq_perde = 0;
         if (node1HoleDia > 0) {
             L_eq_perde = (node1HoleThick + 1.2 * r_perde) * Math.pow(diaTop / node1HoleDia, 2);
         }
         
-        // 4. 1. Boğum Kavitesi Uzaması
-        const L_eq_hazne = L_kavite;
-        
-        // 5. Başpâre Sanal Uzaması (Neck)
         let L_eq_baspare = 0;
         if (baspareDia > 0) {
             L_eq_baspare = baspareTotal * Math.pow(diaTop / baspareDia, 2);
         }
         
-        // Açık uç radyasyon kütlesi (Başpâre ağzından)
-        const r_agiz = baspareDia / 2;
-        const deltaL_open = 0.61 * r_agiz;
+        const deltaL_open = 0.61 * (baspareDia / 2);
+        return L_eq_perde + L_kavite + L_eq_baspare + deltaL_open;
+    }
+
+    function updateMakerTable(length, diaTop, diaBottom, node1Len, node1HoleDia, node1HoleThick, baspareTotal, baspareExposed, baspareDia, thickness, holeDia) {
+        makerTbody.innerHTML = "";
         
-        const deltaL_ust = L_eq_perde + L_eq_hazne + L_eq_baspare + deltaL_open;
+        // 1. Standart (Baseline) Ney Değerleri
+        const dTop_std = 15.0;
+        const dBot_std = 10.0;
+        const n1Len_std = 26.0;
+        const n1HDia_std = 8.0;
+        const n1HThk_std = 3.0;
+        const bTot_std = 20.0;
+        const bExp_std = 10.0;
+        const bDia_std = 10.0;
+        const thick_std = 3.0;
+        const hDia_std = 9.0;
+
+        // 2. Üst Uç Sapması (Pertürbasyon)
+        const deltaL_ust_std = calcTopExtension(dTop_std, n1Len_std, n1HDia_std, n1HThk_std, bTot_std, bExp_std, bDia_std);
+        const deltaL_ust_actual = calcTopExtension(diaTop, node1Len, node1HoleDia, node1HoleThick, baspareTotal, baspareExposed, baspareDia);
         
-        const Leff = length + deltaL_alt + deltaL_ust;
+        // Pozitif fark = üst taraf standarda göre DAHA UZUN/AĞIR (Sesi pesleştiriyor)
+        const deltaL_ust_diff = deltaL_ust_actual - deltaL_ust_std;
         
         makerSummary.innerHTML = `
-            <span><strong>Fiziksel Boy:</strong> ${length.toFixed(1)} mm</span>
-            <span><strong>Akustik Efektif Boy:</strong> ${Leff.toFixed(1)} mm</span>
-            <span><strong>Üst Uç Eklentisi:</strong> +${deltaL_ust.toFixed(1)} mm</span>
-            <span><strong>Alt Uç Eklentisi:</strong> +${deltaL_alt.toFixed(1)} mm</span>
+            <span><strong>Kamış Boyu:</strong> ${length.toFixed(1)} mm</span>
+            <span><strong>Referans Akustik (Üst):</strong> ${deltaL_ust_std.toFixed(1)} mm</span>
+            <span><strong>Güncel Akustik (Üst):</strong> ${deltaL_ust_actual.toFixed(1)} mm</span>
+            <span style="color: ${deltaL_ust_diff > 0 ? 'var(--accent-gold)' : (deltaL_ust_diff < 0 ? '#4dabf7' : 'white')}">
+                <strong>Üst Akustik Sapma:</strong> ${deltaL_ust_diff > 0 ? '+' : ''}${deltaL_ust_diff.toFixed(1)} mm
+            </span>
         `;
         
         holes26.forEach(hole => {
             const ratio = hole.ratio / 26;
             
-            // Teorik Nodal Nokta (Akustik boy üzerinden)
-            const X_teorik = Leff * ratio;
+            // Klasik 26'lık konum (Fiziksel kamışın altından yukarıya doğru ölçüm)
+            const X_klasik = length * ratio;
             
-            // Fiziksel borudaki ölçüm noktası (Cetvelin sıfırı üstte olduğu için üst düzeltmeyi çıkarıyoruz)
-            const X_1 = X_teorik - deltaL_ust;
+            // Lokal Çap Sapması
+            const D_x_std = dBot_std + ratio * (dTop_std - dBot_std);
+            const D_x_actual = diaBottom + ratio * (diaTop - diaBottom);
             
-            // İlgili deliğin açılacağı noktadaki lokal konik çap (Interpolasyon)
-            // x ekseni üstten alta doğru arttığı için:
-            const D_x = diaTop + ratio * (diaBottom - diaTop);
-            
-            // Deliğin Sanal Uzantısı (Acoustic Hole End Correction)
-            // L_hole = (r_main / r_hole)^2 * (t + 1.5 * r_hole)
-            // Veya çaplar cinsinden: (D_x / D_delik)^2 * (t + 0.75 * D_delik)
-            let deltaL_hole = 0;
-            if (holeDia > 0 && D_x > 0) {
-                deltaL_hole = Math.pow(D_x / holeDia, 2) * (thickness + 0.75 * holeDia);
+            // Deliğin Sanal Uzantısı Sapması (Hole Impedance Difference)
+            const deltaL_hole_std = Math.pow(D_x_std / hDia_std, 2) * (thick_std + 0.75 * hDia_std);
+            let deltaL_hole_actual = 0;
+            if (holeDia > 0 && D_x_actual > 0) {
+                deltaL_hole_actual = Math.pow(D_x_actual / holeDia, 2) * (thickness + 0.75 * holeDia);
             }
+            const deltaL_hole_diff = deltaL_hole_actual - deltaL_hole_std;
             
-            // Son Fiziksel Konum (Deliğin sanal uzantısını çıkararak deliği başpâreye yaklaştırıyoruz)
-            const X_fiziksel = X_1 - deltaL_hole;
+            // Üst uç sapmasının etkisi, delik başpâreye yaklaştıkça (oran büyüdükçe) artar.
+            // Arka delik (13.5) için maksimum (1x), Dügâh (6) için minimum (~0.44x)
+            const ust_etki_carpani = hole.ratio / 13.5;
+            const efektif_ust_sapma = deltaL_ust_diff * ust_etki_carpani;
             
-            const klasikMesafe = length * ratio;
+            // Toplam Kayma (Pozitifse delik yukarı -alttan uzağa- kayar)
+            const total_shift = efektif_ust_sapma + deltaL_hole_diff;
+            
+            const X_fiziksel = X_klasik + total_shift;
 
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td><strong>${hole.name}</strong></td>
                 <td>${hole.ratio} / 26</td>
-                <td style="color: var(--text-muted); font-size: 1.1rem; text-decoration: line-through;">${klasikMesafe.toFixed(1)} mm</td>
+                <td style="color: var(--text-muted); font-size: 1.1rem; text-decoration: line-through;">${X_klasik.toFixed(1)} mm</td>
                 <td style="color: var(--accent-gold); font-size: 1.1rem; font-weight: 500;">
                     ${X_fiziksel.toFixed(1)} mm 
-                    <span style="font-size: 0.8rem; opacity: 0.7; display: block;">(D_lokal: ${D_x.toFixed(1)}mm, ΔDelik: -${deltaL_hole.toFixed(1)}mm)</span>
+                    <span style="font-size: 0.8rem; opacity: 0.7; display: block;">(Üst Etkisi: ${efektif_ust_sapma > 0 ? '+' : ''}${efektif_ust_sapma.toFixed(1)}, Delik Etkisi: ${deltaL_hole_diff > 0 ? '+' : ''}${deltaL_hole_diff.toFixed(1)})</span>
                 </td>
             `;
             makerTbody.appendChild(tr);
@@ -222,17 +225,20 @@ document.addEventListener("DOMContentLoaded", () => {
         descEl.textContent = selectedNey.desc;
         tbody.innerHTML = "";
         
-        lengthInput.value = selectedNey.avgLength;
+        // Sadece kullanıcı dropdown'dan seçim yaptığında boyu ez (ilk yüklemede HTML'deki varsayılan 666 kalsın)
+        if (!window.isInitialLoad) {
+            lengthInput.value = selectedNey.avgLength;
+        }
         
-        const lVal = selectedNey.avgLength;
-        const dTop = parseFloat(diameterTopInput.value) || 16.0;
-        const dBot = parseFloat(diameterBottomInput.value) || 15.0;
-        const n1Len = parseFloat(node1LengthInput.value) || 60.0;
+        const lVal = window.isInitialLoad ? (parseFloat(lengthInput.value) || selectedNey.avgLength) : selectedNey.avgLength;
+        const dTop = parseFloat(diameterTopInput.value) || 15.0;
+        const dBot = parseFloat(diameterBottomInput.value) || 10.0;
+        const n1Len = parseFloat(node1LengthInput.value) || 26.0;
         const n1HDia = parseFloat(node1HoleDiaInput.value) || 8.0;
         const n1HThk = parseFloat(node1HoleThickInput.value) || 3.0;
-        const bTot = parseFloat(baspareTotalInput.value) || 25.0;
-        const bExp = parseFloat(baspareExposedInput.value) || 15.0;
-        const bDia = parseFloat(baspareDiameterInput.value) || 12.0;
+        const bTot = parseFloat(baspareTotalInput.value) || 20.0;
+        const bExp = parseFloat(baspareExposedInput.value) || 10.0;
+        const bDia = parseFloat(baspareDiameterInput.value) || 10.0;
         const thick = parseFloat(thicknessInput.value) || 3.0;
         const hDia = parseFloat(holeDiameterInput.value) || 9.0;
         
@@ -317,7 +323,10 @@ document.addEventListener("DOMContentLoaded", () => {
     holeDiameterInput.addEventListener("input", handleMakerInput);
     
     // Initial Render
+    // Varsayılan açılışta dropdown'ın boyu ezmesini engellemek için flag
+    window.isInitialLoad = true;
     updateTable();
+    window.isInitialLoad = false;
 
     // Tab Logic
     const tabButtons = document.querySelectorAll('.tab-button');
