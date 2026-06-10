@@ -14,37 +14,28 @@ const neyTypes = [
 // 'M' = orta parmak ile kapatma tekniği
 
 const notes = [
-    // 2. Devre - Temel Doğal Sesler (Progresif delik açma sistemi: alttan yukarı sırayla)
-    { section: "2. Devre — Temel Doğal Sesler", turkishName: "Gerdaniye", turkishNotation: "Sol", komaOffset: 44, accidental: "Doğal", fingers: [1, 1, 1, 1, 0, 0, 0], fingerNote: "Çargâh pozisyonuyla, 3. devre üfleme" },
-    { turkishName: "Acem", turkishNotation: "Fa", komaOffset: 35, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 0, 0], fingerNote: "Bûselik pozisyonuyla, 3. devre üfleme" },
-    { turkishName: "Hüseyni", turkishNotation: "Mi", komaOffset: 31, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 1, 0], fingerNote: "Dügâh pozisyonuyla, 3. devre üfleme" },
-    { turkishName: "Neva", turkishNotation: "Re", komaOffset: 22, accidental: "Doğal", fingers: [1, 0, 0, 0, 0, 0, 0], fingerNote: "Sadece arka delik kapalı, tüm ön delikler açık" },
-    { turkishName: "Çargâh", turkishNotation: "Do", komaOffset: 13, accidental: "Doğal", fingers: [1, 1, 1, 1, 0, 0, 0], fingerNote: "Arka + üst el kapalı, alt el açık" },
-    { turkishName: "Bûselik", turkishNotation: "Si", komaOffset: 9, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 0, 0], fingerNote: "Alt el son 2 delik açık" },
-    { turkishName: "Dügâh", turkishNotation: "La", komaOffset: 0, accidental: "Doğal (Karar Sesi)", fingers: [1, 1, 1, 1, 1, 1, 0], fingerNote: "Alt el son delik açık" },
-    { turkishName: "Rast", turkishNotation: "Sol", komaOffset: -9, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 1, 1], fingerNote: "Tüm delikler kapalı" },
+    // 1. Devre - Dem Sesleri (Pes Üfleyiş)
+    { section: "1. Devre — Dem Sesleri (Pes Üfleyiş)", turkishName: "Kaba Rast", turkishNotation: "Sol", komaOffset: -62, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 1, 1], fingerNote: "Tüm delikler kapalı, pes üfleyiş (Şekil 1)" },
+    { turkishName: "Kaba Dügâh", turkishNotation: "La", komaOffset: -53, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 1, 0], fingerNote: "Alt el son delik açık, pes üfleyiş (Şekil 2)" },
+    { turkishName: "Kaba Segâh", turkishNotation: "Si", komaOffset: -45, accidental: "Koma Bemolü", fingers: [1, 1, 1, 1, 1, 0, 0], fingerNote: "Alt el son iki delik açık, pes üfleyiş (Şekil 4)" },
+    { turkishName: "Kaba Çargâh", turkishNotation: "Do", komaOffset: -40, accidental: "Doğal", fingers: [1, 1, 1, 1, 0, 0, 0], fingerNote: "Alt el açık, pes üfleyiş (Şekil 5)" },
 
-    // 3. Devre - Tiz Sesler (Aynı pozisyonlar, daha kuvvetli üfleme — 5li harmonik)
-    { section: "3. Devre — Tiz Sesler", turkishName: "Tiz Neva", turkishNotation: "Re", komaOffset: 75, accidental: "Doğal", fingers: [1, 0, 0, 0, 0, 0, 0], fingerNote: "Neva pozisyonuyla, en kuvvetli üfleme" },
-    { turkishName: "Tiz Çargâh", turkishNotation: "Do", komaOffset: 66, accidental: "Doğal", fingers: [1, 1, 1, 1, 0, 0, 0], fingerNote: "Çargâh pozisyonuyla, daha kuvvetli üfleme" },
-    { turkishName: "Tiz Segâh", turkishNotation: "Si", komaOffset: 61, accidental: "Koma Bemolü (1 koma pes)", fingers: [1, 1, 1, 1, 1, 0.5, 0], fingerNote: "Segâh pozisyonuyla, daha kuvvetli üfleme" },
-    { turkishName: "Muhayyer", turkishNotation: "La", komaOffset: 53, accidental: "Doğal", fingers: [1, 0, 0, 0, 0, 0, 0], fingerNote: "Neva pozisyonuyla, 3. devre üfleme" },
+    // 2. Devre - Asıl Sesler (Normal Üfleyiş)
+    { section: "2. Devre — Asıl Sesler (Normal Üfleyiş)", turkishName: "Rast", turkishNotation: "Sol", komaOffset: -9, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 1, 1], fingerNote: "Tüm delikler kapalı (Şekil 1)" },
+    { turkishName: "Dügâh", turkishNotation: "La", komaOffset: 0, accidental: "Doğal (Karar Sesi)", fingers: [1, 1, 1, 1, 1, 1, 0], fingerNote: "Alt el son delik açık (Şekil 2)" },
+    { turkishName: "Kürdi", turkishNotation: "Si", komaOffset: 4, accidental: "5 Koma Bemol", fingers: [1, 1, 1, 1, 1, 0.5, 0], fingerNote: "5. delik yarım açık (Şekil 3)" },
+    { turkishName: "Segâh", turkishNotation: "Si", komaOffset: 8, accidental: "1 Koma Bemol", fingers: [1, 1, 1, 1, 1, 0, 0], fingerNote: "Son iki delik açık (Şekil 4)" },
+    { turkishName: "Bûselik", turkishNotation: "Si", komaOffset: 9, accidental: "Natürel (Çapraz)", fingers: [1, 1, 1, 1, 1, 0, 1], fingerNote: "Çapraz parmaklama: 5. delik açık, 6. kapalı (Şekil 12)" },
+    { turkishName: "Çargâh", turkishNotation: "Do", komaOffset: 13, accidental: "Doğal", fingers: [1, 1, 1, 1, 0, 0, 0], fingerNote: "Alt el tamamen açık (Şekil 5)" },
+    { turkishName: "Nim Hicaz", turkishNotation: "Do#", komaOffset: 17, accidental: "4 Koma Diyez", fingers: [1, 1, 1, 0.5, 0, 0, 0], fingerNote: "3. delik yarım açık (Şekil 6)" },
+    { turkishName: "Neva", turkishNotation: "Re", komaOffset: 22, accidental: "Doğal", fingers: [1, 0, 0, 0, 0, 0, 0], fingerNote: "Sadece arka delik kapalı (Şekil 7)" },
+    { turkishName: "Acem", turkishNotation: "Fa", komaOffset: 35, accidental: "Doğal", fingers: [0, 0, 0, 0, 0, 0, 0], fingerNote: "Tüm delikler açık (Şekil 8)" },
 
-    // Ara ve Arıza Sesler (Diyez, Bemol ve Yarım Delikliler)
-    { section: "Ara ve Arıza Sesler (Diyez, Bemol ve Yarım Delikliler)", turkishName: "Eviç", turkishNotation: "Fa#", komaOffset: 39, accidental: "Bakiye Diyezi (4 koma tiz)", fingers: [0.5, 0, 0, 0, 0, 0, 0], fingerNote: "Arka delik yarım (başparmak)" },
-    { turkishName: "Nim Hisar", turkishNotation: "Mi♭", komaOffset: 26, accidental: "5 Koma Bemol (Zor Perde)", fingers: [1, 1, 1, 0.5, 1, 1, 1], fingerNote: "Üst el yüzük parmağı yarım" },
-    { turkishName: "Hicaz (Nim Hicaz)", turkishNotation: "Do#", komaOffset: 17, accidental: "Bakiye Diyezi (4 koma tiz)", fingers: [1, 1, 1, 0.5, 0, 0, 0], fingerNote: "Üst el yüzük parmağı yarım" },
-    { turkishName: "Segâh", turkishNotation: "Si", komaOffset: 8, accidental: "Koma Bemolü (1 koma pes)", fingers: [1, 1, 1, 1, 1, 0.5, 0], fingerNote: "Alt el orta parmak hafif aralıklı" },
-    { turkishName: "Kürdi", turkishNotation: "Si", komaOffset: 5, accidental: "Bakiye Bemolü (4 koma pes)", fingers: [1, 1, 1, 1, 1, 0.5, 0], fingerNote: "Alt el orta parmak yarım" },
-    { turkishName: "Geveşt", turkishNotation: "Fa#", komaOffset: -14, accidental: "5 Koma Bemol (Zor Perde)", fingers: [0, 0, 1, 0, 0, 1, 0], fingerNote: "Sadece iki elin orta parmakları kapalı" },
-
-    // 1. Devre - Dem Sesleri (2. devre ile aynı pozisyonlar, pes/sıcak üfleme ile)
-    { section: "1. Devre — Dem Sesleri (En Pes)", turkishName: "Irak", turkishNotation: "Fa#", komaOffset: -13, accidental: "Bakiye Diyezi", fingers: [0.5, 0, 0, 0, 0, 0, 0], fingerNote: "Dem, Eviç pozisyonu (arka delik yarım)" },
-    { turkishName: "Acem Aşiran", turkishNotation: "Fa", komaOffset: -18, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 0, 0], fingerNote: "Dem, Bûselik pozisyonu" },
-    { turkishName: "Hüseyni Aşiran", turkishNotation: "Mi", komaOffset: -22, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 1, 0], fingerNote: "Dem, Dügâh pozisyonu" },
-    { turkishName: "Kaba Neva (Yegâh)", turkishNotation: "Re", komaOffset: -31, accidental: "Doğal", fingers: [1, 0, 0, 0, 0, 0, 0], fingerNote: "Dem, Neva pozisyonu" },
-    { turkishName: "Kaba Çargâh", turkishNotation: "Do", komaOffset: -40, accidental: "Doğal (Natürel)", fingers: [1, 1, 1, 1, 0, 0, 0], fingerNote: "Dem, Çargâh pozisyonu" },
-    { turkishName: "Kaba Rast (Yegâh)", turkishNotation: "Sol", komaOffset: -62, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 1, 1], fingerNote: "Dem, Rast pozisyonu (tüm delikler kapalı)" },
+    // 3. Devre - Tiz Sesler (Kuvvetli Üfleyiş)
+    { section: "3. Devre — Tiz Sesler (Kuvvetli Üfleyiş)", turkishName: "Hüseyni", turkishNotation: "Mi", komaOffset: 31, accidental: "Doğal", fingers: [1, 1, 1, 1, 1, 1, 0], fingerNote: "Dügâh pozisyonuyla, kuvvetli üfleme (Şekil 2)" },
+    { turkishName: "Eviç", turkishNotation: "Fa#", komaOffset: 39, accidental: "4 Koma Diyez", fingers: [1, 1, 1, 1, 1, 0, 0], fingerNote: "Segâh pozisyonuyla, kuvvetli üfleme (Şekil 4)" },
+    { turkishName: "Gerdaniye", turkishNotation: "Sol", komaOffset: 44, accidental: "Doğal", fingers: [1, 1, 1, 1, 0, 0, 0], fingerNote: "Çargâh pozisyonuyla, kuvvetli üfleme (Şekil 5)" },
+    { turkishName: "Muhayyer", turkishNotation: "La", komaOffset: 53, accidental: "Doğal", fingers: [1, 0, 0, 0, 0, 0, 0], fingerNote: "Neva pozisyonuyla, kuvvetli üfleme (Şekil 7)" }
 ];
 
 function getFrequencyFromMidi(midi) {
@@ -80,8 +71,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const descEl = document.getElementById("ney-description");
     const tbody = document.getElementById("notes-body");
     const makerTbody = document.getElementById("maker-body");
+    
+    // New Advanced Acoustic Inputs
     const lengthInput = document.getElementById("ney-length");
-    const diameterInput = document.getElementById("ney-diameter");
+    const diameterTopInput = document.getElementById("ney-diameter-top");
+    const diameterBottomInput = document.getElementById("ney-diameter-bottom");
+    const node1LengthInput = document.getElementById("ney-node1-length");
+    const node1HoleDiaInput = document.getElementById("ney-node1-hole-dia");
+    const node1HoleThickInput = document.getElementById("ney-node1-hole-thick");
+    const baspareTotalInput = document.getElementById("ney-baspare-total");
+    const baspareExposedInput = document.getElementById("ney-baspare-exposed");
+    const baspareDiameterInput = document.getElementById("ney-baspare-diameter");
+    const thicknessInput = document.getElementById("ney-thickness");
+    const holeDiameterInput = document.getElementById("ney-hole-diameter");
+    
     const makerSummary = document.getElementById("maker-summary");
 
     const holes26 = [
@@ -123,39 +126,90 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 
-    function updateMakerTable(length, diameter) {
+    function updateMakerTable(length, diaTop, diaBottom, node1Len, node1HoleDia, node1HoleThick, baspareTotal, baspareExposed, baspareDia, thickness, holeDia) {
         makerTbody.innerHTML = "";
-        const unit = length / 26;
         
-        let diameterHtml = "";
-        if (diameter > 0) {
-            const endCorrection = 0.61 * (diameter / 2);
-            diameterHtml = `<span style="width: 100%; text-align: center; font-size: 0.95rem; color: var(--text-muted); margin-top: 0.5rem;"><strong>Akustik Uç Düzeltmesi (Açık uç):</strong> +${endCorrection.toFixed(1)} mm (Teorik olarak ses sütununa eklenen uzunluk)</span>`;
+        // 1. Boru Akustik Boyu (L_eff)
+        const r_ust = diaTop / 2;
+        const r_alt = diaBottom / 2;
+        
+        // Alt açık uç düzeltmesi
+        const deltaL_alt = 0.61 * r_alt;
+        
+        // Üst açık uç (Çift Boğumlu Rezonatör)
+        // 1. Kesişim hesabı (Başpârenin içeri giren kısmı)
+        const baspareKes = Math.max(0, baspareTotal - baspareExposed);
+        
+        // 2. 1. Boğum Efektif Kavite Boyu
+        const L_kavite = Math.max(0, node1Len - baspareKes);
+        
+        // 3. Perde Deliği Sanal Uzaması (Equivalent Length)
+        // L_eq_perde = (t_perde + 1.2 * r_perde) * (D_ust / D_perde)^2
+        const r_perde = node1HoleDia / 2;
+        let L_eq_perde = 0;
+        if (node1HoleDia > 0) {
+            L_eq_perde = (node1HoleThick + 1.2 * r_perde) * Math.pow(diaTop / node1HoleDia, 2);
         }
-
+        
+        // 4. 1. Boğum Kavitesi Uzaması
+        const L_eq_hazne = L_kavite;
+        
+        // 5. Başpâre Sanal Uzaması (Neck)
+        let L_eq_baspare = 0;
+        if (baspareDia > 0) {
+            L_eq_baspare = baspareTotal * Math.pow(diaTop / baspareDia, 2);
+        }
+        
+        // Açık uç radyasyon kütlesi (Başpâre ağzından)
+        const r_agiz = baspareDia / 2;
+        const deltaL_open = 0.61 * r_agiz;
+        
+        const deltaL_ust = L_eq_perde + L_eq_hazne + L_eq_baspare + deltaL_open;
+        
+        const Leff = length + deltaL_alt + deltaL_ust;
+        
         makerSummary.innerHTML = `
-            <span><strong>1 Birim Oranı:</strong> ${unit.toFixed(1)} mm</span>
-            <span><strong>İlk Delik Mesafesi:</strong> ${(unit * 4).toFixed(1)} mm</span>
-            <span><strong>Delikler Arası Mesafe:</strong> ${unit.toFixed(1)} mm</span>
-            ${diameterHtml}
+            <span><strong>Fiziksel Boy:</strong> ${length.toFixed(1)} mm</span>
+            <span><strong>Akustik Efektif Boy:</strong> ${Leff.toFixed(1)} mm</span>
+            <span><strong>Üst Uç Eklentisi:</strong> +${deltaL_ust.toFixed(1)} mm</span>
+            <span><strong>Alt Uç Eklentisi:</strong> +${deltaL_alt.toFixed(1)} mm</span>
         `;
         
         holes26.forEach(hole => {
-            const distance = unit * hole.ratio;
-            let adjustedHtml = `<td style="color: var(--text-muted);">---</td>`;
-
-            if (diameter > 0) {
-                const endCorrection = 0.61 * (diameter / 2);
-                const adjustedDistance = distance + (endCorrection * (hole.ratio / 26));
-                adjustedHtml = `<td style="color: var(--accent-gold); font-size: 1.1rem; font-weight: 500;">${adjustedDistance.toFixed(1)} mm</td>`;
+            const ratio = hole.ratio / 26;
+            
+            // Teorik Nodal Nokta (Akustik boy üzerinden)
+            const X_teorik = Leff * ratio;
+            
+            // Fiziksel borudaki ölçüm noktası (Cetvelin sıfırı üstte olduğu için üst düzeltmeyi çıkarıyoruz)
+            const X_1 = X_teorik - deltaL_ust;
+            
+            // İlgili deliğin açılacağı noktadaki lokal konik çap (Interpolasyon)
+            // x ekseni üstten alta doğru arttığı için:
+            const D_x = diaTop + ratio * (diaBottom - diaTop);
+            
+            // Deliğin Sanal Uzantısı (Acoustic Hole End Correction)
+            // L_hole = (r_main / r_hole)^2 * (t + 1.5 * r_hole)
+            // Veya çaplar cinsinden: (D_x / D_delik)^2 * (t + 0.75 * D_delik)
+            let deltaL_hole = 0;
+            if (holeDia > 0 && D_x > 0) {
+                deltaL_hole = Math.pow(D_x / holeDia, 2) * (thickness + 0.75 * holeDia);
             }
+            
+            // Son Fiziksel Konum (Deliğin sanal uzantısını çıkararak deliği başpâreye yaklaştırıyoruz)
+            const X_fiziksel = X_1 - deltaL_hole;
+            
+            const klasikMesafe = length * ratio;
 
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td><strong>${hole.name}</strong></td>
                 <td>${hole.ratio} / 26</td>
-                <td style="color: var(--text-main); font-size: 1.1rem;">${distance.toFixed(1)} mm</td>
-                ${adjustedHtml}
+                <td style="color: var(--text-muted); font-size: 1.1rem; text-decoration: line-through;">${klasikMesafe.toFixed(1)} mm</td>
+                <td style="color: var(--accent-gold); font-size: 1.1rem; font-weight: 500;">
+                    ${X_fiziksel.toFixed(1)} mm 
+                    <span style="font-size: 0.8rem; opacity: 0.7; display: block;">(D_lokal: ${D_x.toFixed(1)}mm, ΔDelik: -${deltaL_hole.toFixed(1)}mm)</span>
+                </td>
             `;
             makerTbody.appendChild(tr);
         });
@@ -169,7 +223,20 @@ document.addEventListener("DOMContentLoaded", () => {
         tbody.innerHTML = "";
         
         lengthInput.value = selectedNey.avgLength;
-        updateMakerTable(selectedNey.avgLength, parseFloat(diameterInput.value) || 0);
+        
+        const lVal = selectedNey.avgLength;
+        const dTop = parseFloat(diameterTopInput.value) || 16.0;
+        const dBot = parseFloat(diameterBottomInput.value) || 15.0;
+        const n1Len = parseFloat(node1LengthInput.value) || 60.0;
+        const n1HDia = parseFloat(node1HoleDiaInput.value) || 8.0;
+        const n1HThk = parseFloat(node1HoleThickInput.value) || 3.0;
+        const bTot = parseFloat(baspareTotalInput.value) || 25.0;
+        const bExp = parseFloat(baspareExposedInput.value) || 15.0;
+        const bDia = parseFloat(baspareDiameterInput.value) || 12.0;
+        const thick = parseFloat(thicknessInput.value) || 3.0;
+        const hDia = parseFloat(holeDiameterInput.value) || 9.0;
+        
+        updateMakerTable(lVal, dTop, dBot, n1Len, n1HDia, n1HThk, bTot, bExp, bDia, thick, hDia);
 
         // Calculate base frequency of Dügâh for this Ney
         const baseFreq = getFrequencyFromMidi(selectedNey.baseMidi);
@@ -220,15 +287,34 @@ document.addEventListener("DOMContentLoaded", () => {
     selectEl.addEventListener("change", updateTable);
     
     function handleMakerInput() {
-        const lengthVal = parseFloat(lengthInput.value);
-        const diaVal = parseFloat(diameterInput.value);
-        if(!isNaN(lengthVal) && lengthVal > 0) {
-            updateMakerTable(lengthVal, diaVal || 0);
+        const lVal = parseFloat(lengthInput.value);
+        const dTop = parseFloat(diameterTopInput.value);
+        const dBot = parseFloat(diameterBottomInput.value);
+        const n1Len = parseFloat(node1LengthInput.value);
+        const n1HDia = parseFloat(node1HoleDiaInput.value);
+        const n1HThk = parseFloat(node1HoleThickInput.value);
+        const bTot = parseFloat(baspareTotalInput.value);
+        const bExp = parseFloat(baspareExposedInput.value);
+        const bDia = parseFloat(baspareDiameterInput.value);
+        const thick = parseFloat(thicknessInput.value);
+        const hDia = parseFloat(holeDiameterInput.value);
+        
+        if(!isNaN(lVal) && lVal > 0) {
+            updateMakerTable(lVal, dTop||0, dBot||0, n1Len||0, n1HDia||0, n1HThk||0, bTot||0, bExp||0, bDia||0, thick||0, hDia||0);
         }
     }
 
     lengthInput.addEventListener("input", handleMakerInput);
-    diameterInput.addEventListener("input", handleMakerInput);
+    diameterTopInput.addEventListener("input", handleMakerInput);
+    diameterBottomInput.addEventListener("input", handleMakerInput);
+    node1LengthInput.addEventListener("input", handleMakerInput);
+    node1HoleDiaInput.addEventListener("input", handleMakerInput);
+    node1HoleThickInput.addEventListener("input", handleMakerInput);
+    baspareTotalInput.addEventListener("input", handleMakerInput);
+    baspareExposedInput.addEventListener("input", handleMakerInput);
+    baspareDiameterInput.addEventListener("input", handleMakerInput);
+    thicknessInput.addEventListener("input", handleMakerInput);
+    holeDiameterInput.addEventListener("input", handleMakerInput);
     
     // Initial Render
     updateTable();
@@ -278,26 +364,42 @@ document.addEventListener("DOMContentLoaded", () => {
         const shiftOct2 = -diff * rateOct2;
         const shiftOct3 = -diff * rateOct3;
 
-        function formatShift(shift, elem) {
+        // Calculate absolute Hz shift based on current Ney's Neva note
+        const selectEl = document.getElementById("ney-select");
+        const selectedNey = neyTypes.find(n => n.id === selectEl.value) || neyTypes[0];
+        const baseFreq = getFrequencyFromMidi(selectedNey.baseMidi);
+        const freqOct2 = baseFreq * Math.pow(2, 22 / 53); // Neva
+        const freqOct3 = baseFreq * Math.pow(2, 75 / 53); // Tiz Neva
+
+        const hzShiftOct2 = freqOct2 * (Math.pow(2, shiftOct2 / 1200) - 1);
+        const hzShiftOct3 = freqOct3 * (Math.pow(2, shiftOct3 / 1200) - 1);
+
+        function formatShift(shift, hzShift, elem) {
             if(!elem) return;
+            const signStr = hzShift >= 0 ? "+" : "";
             if (shift > 0.1) {
-                elem.textContent = `+${shift.toFixed(1)} Cent (Tizleşir)`;
+                elem.innerHTML = `+${shift.toFixed(1)} Cent <br><span style="font-size: 1.2rem; opacity: 0.8">(${signStr}${hzShift.toFixed(1)} Hz)</span><br><span style="font-size: 1rem">(Tizleşir)</span>`;
                 elem.style.color = '#ff6b6b'; // Light red for sharp
             } else if (shift < -0.1) {
-                elem.textContent = `${shift.toFixed(1)} Cent (Pesleşir)`;
+                elem.innerHTML = `${shift.toFixed(1)} Cent <br><span style="font-size: 1.2rem; opacity: 0.8">(${signStr}${hzShift.toFixed(1)} Hz)</span><br><span style="font-size: 1rem">(Pesleşir)</span>`;
                 elem.style.color = '#4dabf7'; // Light blue for flat
             } else {
-                elem.textContent = `0 Cent (Dengeli)`;
+                elem.innerHTML = `0 Cent <br><span style="font-size: 1.2rem; opacity: 0.8">(0 Hz)</span><br><span style="font-size: 1rem">(Dengeli)</span>`;
                 elem.style.color = 'white';
             }
         }
         
-        formatShift(shiftOct2, acousticShiftOct2);
-        formatShift(shiftOct3, acousticShiftOct3);
+        formatShift(shiftOct2, hzShiftOct2, acousticShiftOct2);
+        formatShift(shiftOct3, hzShiftOct3, acousticShiftOct3);
     }
 
     if(acousticsDiameter) acousticsDiameter.addEventListener('input', updateAcousticsTab);
     if(acousticsDepth) acousticsDepth.addEventListener('input', updateAcousticsTab);
+    
+    // Also update acoustics when Ney type changes since it affects base frequency
+    const mainSelectEl = document.getElementById("ney-select");
+    if(mainSelectEl) mainSelectEl.addEventListener('change', updateAcousticsTab);
+
     updateAcousticsTab();
 });
 
